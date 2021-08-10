@@ -1,6 +1,6 @@
 "use strict";
 
 import { parsers as htmlParsers } from "prettier/parser-html";
-const parse = htmlParsers.html;
+const htmlParser = htmlParsers.html;
 
-export default parse;
+export default htmlParser;
