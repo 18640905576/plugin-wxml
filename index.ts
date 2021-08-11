@@ -1,5 +1,4 @@
 // index.ts
-
 import {
   SupportLanguage,
   Parser,
@@ -8,6 +7,7 @@ import {
   ParserOptions,
 } from "prettier";
 import htmlParser from "./parse";
+import printer from "./print";
 
 // prettier 指定 `node` 参数为 any，因为不同 parser 返回的 node 类型不尽相同
 function locStart(node: any): number {
