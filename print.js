@@ -1027,56 +1027,55 @@ function printEmbeddedAttributeValue(node, originalTextToDoc, options) {
     }
   }
 
-  if (options.parser === "vue") {
-    if (node.fullName === "v-for") {
-      return printVueFor(getValue(), attributeTextToDoc);
-    }
+  // if (options.parser === "vue") {
+  //   if (node.fullName === "v-for") {
+  //     return printVueFor(getValue(), attributeTextToDoc);
+  //   }
 
-    if (isVueSlotAttribute(node) || isVueSfcBindingsAttribute(node, options)) {
-      return printVueBindings(getValue(), attributeTextToDoc);
-    }
+  //   if (isVueSlotAttribute(node) || isVueSfcBindingsAttribute(node, options)) {
+  //     return printVueBindings(getValue(), attributeTextToDoc);
+  //   }
 
-    /**
-     *     @click="jsStatement"
-     *     @click="jsExpression"
-     *     v-on:click="jsStatement"
-     *     v-on:click="jsExpression"
-     */
-    const vueEventBindingPatterns = ["^@", "^v-on:"];
-    /**
-     *     :class="vueExpression"
-     *     v-bind:id="vueExpression"
-     */
-    const vueExpressionBindingPatterns = ["^:", "^v-bind:"];
-    /**
-     *     v-if="jsExpression"
-     */
-    const jsExpressionBindingPatterns = ["^v-"];
+  //   /**
+  //    *     @click="jsStatement"
+  //    *     @click="jsExpression"
+  //    *     v-on:click="jsStatement"
+  //    *     v-on:click="jsExpression"
+  //    */
+  //   const vueEventBindingPatterns = ["^@", "^v-on:"];
+  //   /**
+  //    *     :class="vueExpression"
+  //    *     v-bind:id="vueExpression"
+  //    */
+  //   const vueExpressionBindingPatterns = ["^:", "^v-bind:"];
+  //   /**
+  //    *     v-if="jsExpression"
+  //    */
+  //   const jsExpressionBindingPatterns = ["^v-"];
 
-    if (isKeyMatched(vueEventBindingPatterns)) {
-      const value = getValue();
-      return printMaybeHug(
-        attributeTextToDoc(value, {
-          parser: isVueEventBindingExpression(value)
-            ? "__js_expression"
-            : "__vue_event_binding",
-        })
-      );
-    }
+  //   if (isKeyMatched(vueEventBindingPatterns)) {
+  //     const value = getValue();
+  //     return printMaybeHug(
+  //       attributeTextToDoc(value, {
+  //         parser: isVueEventBindingExpression(value)
+  //           ? "__js_expression"
+  //           : "__vue_event_binding",
+  //       })
+  //     );
+  //   }
 
-    if (isKeyMatched(vueExpressionBindingPatterns)) {
-      return printMaybeHug(
-        attributeTextToDoc(getValue(), { parser: "__vue_expression" })
-      );
-    }
+  //   if (isKeyMatched(vueExpressionBindingPatterns)) {
+  //     return printMaybeHug(
+  //       attributeTextToDoc(getValue(), { parser: "__vue_expression" })
+  //     );
+  //   }
 
-    if (isKeyMatched(jsExpressionBindingPatterns)) {
-      return printMaybeHug(
-        attributeTextToDoc(getValue(), { parser: "__js_expression" })
-      );
-    }
-  }
-
+  //   if (isKeyMatched(jsExpressionBindingPatterns)) {
+  //     return printMaybeHug(
+  //       attributeTextToDoc(getValue(), { parser: "__js_expression" })
+  //     );
+  //   }
+  // }
   if (options.parser === "angular") {
     const ngTextToDoc = (code, opts) =>
       // angular does not allow trailing comma
@@ -1131,6 +1130,44 @@ function printEmbeddedAttributeValue(node, originalTextToDoc, options) {
       );
     }
 
+    const interpolationRegex = /{{(.+?)}}/gs;
+    const value = getValue();
+    if (interpolationRegex.test(value)) {
+      const parts = [];
+      for (const [index, part] of value.split(interpolationRegex).entries()) {
+        if (index % 2 === 0) {
+          parts.push(replaceTextEndOfLine(part));
+        } else {
+          try {
+            parts.push(
+              group([
+                "{{",
+                indent([
+                  line,
+                  ngTextToDoc(part, {
+                    parser: "__ng_interpolation",
+                    __isInHtmlInterpolation: true, // to avoid unexpected `}}`
+                  }),
+                ]),
+                line,
+                "}}",
+              ])
+            );
+          } catch {
+            parts.push("{{", replaceTextEndOfLine(part), "}}");
+          }
+        }
+      }
+      return group(parts);
+    }
+  }
+
+  if (options.parser === "wxml") {
+    const ngTextToDoc = (code, opts) =>
+      // angular does not allow trailing comma
+      attributeTextToDoc(code, { ...opts, trailingComma: "none" });
+
+    // todo wxml插值语法
     const interpolationRegex = /{{(.+?)}}/gs;
     const value = getValue();
     if (interpolationRegex.test(value)) {

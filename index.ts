@@ -41,8 +41,8 @@ export const parsers: Record<string, Parser> = {
 // 核心的格式化逻辑
 export const printers: Record<string, Printer> = {
   "wxml-ast": {
-    print, // 目标语言源代码本身的格式化逻辑
-    // TODO embed, // 内嵌的其他语言的格式化
+    print: printer.print, // 目标语言源代码本身的格式化逻辑
+    embed: printer.embed, // 内嵌的其他语言的格式化
   },
 };
 
