@@ -1,5 +1,5 @@
 {
-  "name": "plugin-wxml",
+  "name": "prettier-plugin-wxml",
   "type": "module",
   "version": "1.0.0",
   "description": "",
