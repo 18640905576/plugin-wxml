@@ -1,13 +1,3 @@
-// // index.ts
-// // import {
-// //   SupportLanguage,
-// //   Parser,
-// //   Printer,
-// //   SupportOption,
-// //   ParserOptions,
-// // } from "prettier";
-// // import htmlParser from "./parse.js";
-// // import printer from "./print.js";
 const htmlParser = require("./parse.js");
 const printer = require("./print.js");
 
