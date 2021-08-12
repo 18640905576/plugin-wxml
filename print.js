@@ -1205,7 +1205,7 @@ function printEmbeddedAttributeValue(node, originalTextToDoc, options) {
   return null;
 }
 
-export default {
+module.exports = {
   preprocess,
   print: genericPrint,
   insertPragma,

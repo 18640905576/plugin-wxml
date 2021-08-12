@@ -1,25 +1,26 @@
-// index.ts
-import {
-  SupportLanguage,
-  Parser,
-  Printer,
-  SupportOption,
-  ParserOptions,
-} from "prettier";
-import htmlParser from "./parse";
-import printer from "./print";
+// // index.ts
+// // import {
+// //   SupportLanguage,
+// //   Parser,
+// //   Printer,
+// //   SupportOption,
+// //   ParserOptions,
+// // } from "prettier";
+// // import htmlParser from "./parse.js";
+// // import printer from "./print.js";
+const htmlParser = require("./parse.js");
+const printer = require("./print.js");
 
-// prettier 指定 `node` 参数为 any，因为不同 parser 返回的 node 类型不尽相同
-function locStart(node: any): number {
+function locStart(node) {
   return node.startIndex;
 }
 
-function locEnd(node: any): number {
+function locEnd(node) {
   return node.endIndex;
 }
 
 // 支持的语言列表
-export const languages: Partial<SupportLanguage>[] = [
+const languages = [
   {
     name: "wxml",
     parsers: ["wxml"], // (a.1)
@@ -27,7 +28,7 @@ export const languages: Partial<SupportLanguage>[] = [
   },
 ];
 
-export const parsers: Record<string, Parser> = {
+const parsers = {
   // 注意此处的 key 必须要与 languages 的 parsers 对应
   wxml: {
     ...htmlParser, // 默认使用prettier的html解析器，在此基础上做修改
@@ -39,7 +40,7 @@ export const parsers: Record<string, Parser> = {
 };
 
 // 核心的格式化逻辑
-export const printers: Record<string, Printer> = {
+const printers = {
   "wxml-ast": {
     print: printer.print, // 目标语言源代码本身的格式化逻辑
     embed: printer.embed, // 内嵌的其他语言的格式化
@@ -51,3 +52,9 @@ export const printers: Record<string, Printer> = {
 
 // 可选，默认配置项
 // export const defaultOptions: Partial<ParserOptions>;
+
+module.exports = {
+  languages,
+  printers,
+  parsers,
+};
