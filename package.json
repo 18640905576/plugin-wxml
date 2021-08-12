@@ -11,7 +11,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "html-styles": "^1.0.0",
     "husky": "^5.0.8",
+    "parse-srcset": "^1.0.2",
     "prettier": "^2.3.2"
   },
   "devDependencies": {

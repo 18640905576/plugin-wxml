@@ -1,8 +1,6 @@
 "use strict";
 
-const {
-  builders: { hardline, markAsRoot },
-} = require("prettier").doc.docBuilders;
+const { hardline, markAsRoot } = require("prettier").doc.builders;
 
 function print(node, textToDoc) {
   if (node.lang === "yaml") {

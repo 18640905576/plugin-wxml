@@ -3,31 +3,24 @@
 /**
  * @typedef {import("../document").Doc} Doc
  */
-
-const assert = require("assert");
-
 const {
-  builders: {
-    breakParent,
-    dedentToRoot,
-    fill,
-    group,
-    hardline,
-    ifBreak,
-    indentIfBreak,
-    indent,
-    join,
-    line,
-    literalline,
-    softline,
-  },
-} = require("prettier").doc.docBuilders;
-const {
-  utils: { mapDoc, cleanDoc, getDocParts, isConcat, replaceTextEndOfLine },
-} = require("prettier").doc.docUtils;
-const { isNonEmptyArray } = require("prettier").doc.util;
+  breakParent,
+  dedentToRoot,
+  fill,
+  group,
+  hardline,
+  ifBreak,
+  indentIfBreak,
+  indent,
+  join,
+  line,
+  literalline,
+  softline,
+} = require("prettier").doc.builders;
+const { mapDoc, cleanDoc, getDocParts, isConcat, replaceTextEndOfLine } =
+  require("prettier").doc.utils;
 const printFrontMatter = require("./frontPrint");
-const clean = require("./clean.js");
+// const clean = require("./clean.js");
 const {
   htmlTrimPreserveIndentation,
   splitByHtmlWhitespace,
@@ -43,8 +36,8 @@ const {
   inferScriptParser,
   isVueCustomBlock,
   isVueNonHtmlBlock,
-  isVueSlotAttribute,
-  isVueSfcBindingsAttribute,
+  // isVueSlotAttribute,
+  // isVueSfcBindingsAttribute,
   isScriptLikeTag,
   isTextLikeNode,
   preferHardlineAsLeadingSpaces,
@@ -53,15 +46,23 @@ const {
   unescapeQuoteEntities,
   isPreLikeNode,
 } = require("./utils.js");
-const preprocess = require("./print-preprocess.js");
-const { insertPragma } = require("./pragma.js");
-const { locStart, locEnd } = require("./loc.js");
-const {
-  printVueFor,
-  printVueBindings,
-  isVueEventBindingExpression,
-} = require("./syntax-vue.js");
+// const preprocess = require("./print-preprocess.js");
+// const { insertPragma } = require("./pragma.js");
+// const { locStart, locEnd } = require("./loc.js");
+// const {
+//   printVueFor,
+//   printVueBindings,
+//   isVueEventBindingExpression,
+// } = require("./syntax-vue.js");
 const { printImgSrcset, printClassNames } = require("./syntax-attribute.js");
+
+/**
+ * @param {any} object
+ * @returns {object is Array<any>}
+ */
+function isNonEmptyArray(object) {
+  return Array.isArray(object) && object.length > 0;
+}
 
 function embed(path, print, textToDoc, options) {
   const node = path.getValue();
@@ -895,7 +896,7 @@ function printOpeningTagStartMarker(node) {
 }
 
 function printOpeningTagEndMarker(node) {
-  assert(!node.isSelfClosing);
+  // assert(!node.isSelfClosing);
   switch (node.type) {
     case "ieConditionalComment":
       return "]>";
@@ -910,7 +911,7 @@ function printOpeningTagEndMarker(node) {
 }
 
 function printClosingTagStartMarker(node, options) {
-  assert(!node.isSelfClosing);
+  // assert(!node.isSelfClosing);
   /* istanbul ignore next */
   if (shouldNotPrintClosingTag(node, options)) {
     return "";
@@ -1206,9 +1207,9 @@ function printEmbeddedAttributeValue(node, originalTextToDoc, options) {
 }
 
 module.exports = {
-  preprocess,
+  // preprocess,
   print: genericPrint,
-  insertPragma,
-  massageAstNode: clean,
+  // insertPragma,
+  // massageAstNode: clean,
   embed,
 };
