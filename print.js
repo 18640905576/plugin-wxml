@@ -21,10 +21,12 @@ const {
     literalline,
     softline,
   },
+} = require("prettier").doc.docBuilders;
+const {
   utils: { mapDoc, cleanDoc, getDocParts, isConcat, replaceTextEndOfLine },
-} = require("../document/index.js");
-const { isNonEmptyArray } = require("../common/util.js");
-const printFrontMatter = require("../utils/front-matter/print.js");
+} = require("prettier").doc.docUtils;
+const { isNonEmptyArray } = require("prettier").doc.util;
+const printFrontMatter = require("./frontPrint");
 const clean = require("./clean.js");
 const {
   htmlTrimPreserveIndentation,
