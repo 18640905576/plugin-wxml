@@ -1,4 +1,4 @@
-const htmlParsers = require("prettier/parser-html");
-const htmlParser = htmlParsers.parsers.html;
+const { parsers } = require("prettier/parser-html");
+const htmlParser = parsers.html;
 
 module.exports = htmlParser;
