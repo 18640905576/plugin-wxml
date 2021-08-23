@@ -1,4 +1,3 @@
-const { parsers } = require("prettier/parser-html");
-const htmlParser = parsers.html;
+const parseWxml = require("wxml");
 
-module.exports = htmlParser;
+module.exports = parseWxml.parse;

@@ -1,5 +1,8 @@
-const htmlParser = require("./parse.js");
 const printer = require("./print.js");
+const { parsers } = require("prettier/parser-html");
+const parse = require("./parse.js");
+
+const htmlParser = parsers.html;
 
 function locStart(node) {
   return node.startIndex;
@@ -22,10 +25,11 @@ const parsers = {
   // 注意此处的 key 必须要与 languages 的 parsers 对应
   wxml: {
     ...htmlParser, // 默认使用prettier的html解析器，在此基础上做修改
-    // locStart,
-    // locEnd,
-    // 为 ast 格式命个名，后面会用到
-    astFormat: "wxml-ast",
+    locStart,
+    locEnd,
+
+    astFormat: "wxml-ast", // 为 ast 格式命个名，后面会用到
+    parse, // wxml的解析
   },
 };
 

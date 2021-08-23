@@ -15,7 +15,9 @@
     "htmlparser2": "^6.1.0",
     "husky": "^5.0.8",
     "parse-srcset": "^1.0.2",
-    "prettier": "^2.3.2"
+    "prettier": "^2.3.2",
+    "wxml": "^2.2.2",
+    "wxml-parser": "0.0.3"
   },
   "devDependencies": {
     "@commitlint/cli": "^13.1.0",
