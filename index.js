@@ -21,7 +21,7 @@ const languages = [
   },
 ];
 
-const parsers = {
+const wxmlParsers = {
   // 注意此处的 key 必须要与 languages 的 parsers 对应
   wxml: {
     ...htmlParser, // 默认使用prettier的html解析器，在此基础上做修改
@@ -50,5 +50,5 @@ const printers = {
 module.exports = {
   languages,
   printers,
-  parsers,
+  parsers: wxmlParsers,
 };

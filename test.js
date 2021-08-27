@@ -1,8 +1,8 @@
 const { parsers, printers } = require("./index.js");
 const { parseDOM } = require("htmlparser2");
-var WXMLParser = require("@leejim/wxml-parser");
+const parser = require("angular-html-parser");
 // import { Node } from "domhandler";
-const parse3 = require("wxml");
+// const parse3 = require("wxml");
 
 function parse1(text) {
   const dom = parseDOM(text, {
@@ -13,17 +13,21 @@ function parse1(text) {
   return dom;
 }
 
-var parser2 = new WXMLParser({
-  onopentag(tagname, attrs) {},
-  onclosetag(tagname) {},
-  ontext(text) {},
-  oncomment(cmt) {},
-  ontemplate(tmp) {},
-});
-
 // 'wxml-ast': { print: [Function: genericPrint], embed: [Function: embed] }
 // console.log(parsers, printers);
-const parse = parsers["wxml"];
-const { print, embed } = printers["wxml-ast"];
+// const parse = parsers["wxml"];
+// const { print, embed } = printers["wxml-ast"];
 const string =
   '<view class="address-container"><block wx:for="{{ fields}}" wx:key="key">999</block></view>';
+
+let { rootNodes, errors } = parser.parse(string, {
+  canSelfClose: true,
+  // allowHtmComponentClosingTags: true,
+  // isTagNameCaseSensitive: true,
+  // getTagContentType: true,
+});
+
+console.log(rootNodes, 555)
+console.log(parse1(string))
+
+
