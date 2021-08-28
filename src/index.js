@@ -104,7 +104,7 @@ if (
 }
 
 const plugin = {
-  options,
+  // options,
   languages: [
     {
       name: "wxml",

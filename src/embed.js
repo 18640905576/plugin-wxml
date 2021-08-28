@@ -1,5 +1,4 @@
 const { AstPath, Doc, doc, Printer } = require("prettier");
-// const { AxmlOptions, PrintFn, TemplateTokens, TextToDoc } = require("./types");
 const parser = require("@babel/parser");
 const parseTemplate = require("./parseTemplate");
 
@@ -19,7 +18,12 @@ const embed = (path, print, textToDoc, options) => {
   }
 };
 
-// 处理标签
+/**
+ * 处理标签tag 处理排序 处理标签中的插值
+ * @param {*} textToDoc
+ * @param {*} print
+ * @param {*} options
+ */
 function printTags(textToDoc, print, options) {
   return (path) => {
     const node = path.getValue();
@@ -83,7 +87,12 @@ function printTags(textToDoc, print, options) {
   };
 }
 
-// 解析并打印 JS 表达式
+/**
+ * 处理text中的插值
+ * @param {*} textToDoc
+ * @param {*} _print
+ * @param {*} options
+ */
 function parseAndPrintJSExpression(textToDoc, _print, options) {
   return (text, isForceNakedJSObject = false, isAttribute = false) => {
     let tokens = [["text", text, 0, text.length]];
@@ -154,11 +163,11 @@ function parseAndPrintJSExpression(textToDoc, _print, options) {
             isForceNakedJSObject && isAttribute && isNakedJSObject(str);
 
           // 换行\间距
-          const spacing = options.axmlBracketSpacing ? line : softline;
+          const spacing = options.wxmlBracketSpacing ? line : softline;
 
           // 组装 Doc
           return group([
-            "{{",
+            "{{ ",
             indent([
               spacing,
               forceNaked
@@ -166,7 +175,7 @@ function parseAndPrintJSExpression(textToDoc, _print, options) {
                 : printJSExpression(str.trim(), textToDoc, options),
             ]),
             spacing,
-            "}}",
+            " }}",
           ]);
         } else {
           return text;
@@ -176,7 +185,12 @@ function parseAndPrintJSExpression(textToDoc, _print, options) {
   };
 }
 
-// js 表达式到 Doc
+/**
+ * js 表达式到 Doc
+ * @param {*} text
+ * @param {*} textToDoc
+ * @param {*} options
+ */
 function printJSExpression(text, textToDoc, options) {
   if (!text) return text;
   let doc = text;
@@ -188,7 +202,7 @@ function printJSExpression(text, textToDoc, options) {
   } catch (error) {}
   if (!expr) return [doc];
   if (expr.type === "StringLiteral") {
-    if (options.axmlBracketSpacing) {
+    if (options.wxmlBracketSpacing) {
       return ` ${text.trim()} `;
     }
     return text.trim();
@@ -210,7 +224,7 @@ function printJSExpression(text, textToDoc, options) {
     parser: "__js_expression",
     semi: false,
     trailingComma: "none",
-    bracketSpacing: options.axmlBracketSpacing,
+    bracketSpacing: options.wxmlBracketSpacing,
   });
 
   if (comments) {
