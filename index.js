@@ -1,6 +1,7 @@
 const printer = require("./print.js");
 const { parsers } = require("prettier/parser-html");
 const parse = require("./parse.js");
+const embed = require("./embed.js");
 
 const htmlParser = parsers.html;
 
@@ -36,8 +37,8 @@ const parsers = {
 // 核心的格式化逻辑
 const printers = {
   "wxml-ast": {
-    print: printer.print, // 目标语言源代码本身的格式化逻辑
-    embed: printer.embed, // 内嵌的其他语言的格式化
+    print, // 目标语言源代码本身的格式化逻辑
+    embed, // 内嵌的其他语言的格式化
   },
 };
 
