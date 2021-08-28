@@ -1214,8 +1214,8 @@
 //   embed,
 // };
 
-import { AstPath, ParserOptions, Doc, doc } from "prettier";
-import { PrintFn } from "./types";
+const { AstPath, ParserOptions, Doc, doc } = require("prettier");
+// const { PrintFn } = require("./types");
 
 const { hardline } = doc.builders;
 
@@ -1241,4 +1241,4 @@ function print(path, _options, _print) {
       throw new Error(`Unknown htmlparser2 type: ${node.type}`);
   }
 }
-export default print;
+module.exports = print;

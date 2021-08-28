@@ -1,7 +1,7 @@
-import { AstPath, Doc, doc, Printer } from "prettier";
-import { AxmlOptions, PrintFn, TemplateTokens, TextToDoc } from "./types";
-import * as parser from "@babel/parser";
-import parseTemplate from "./parseTemplate";
+const { AstPath, Doc, doc, Printer } = require("prettier");
+// const { AxmlOptions, PrintFn, TemplateTokens, TextToDoc } = require("./types");
+const parser = require("@babel/parser");
+const parseTemplate = require("./parseTemplate");
 
 const { fill, line, group, indent, softline, hardline, join } = doc.builders;
 
@@ -236,4 +236,4 @@ function isNakedJSObject(text) {
   return node ? node.type === "ObjectExpression" : false;
 }
 
-export default embed;
+module.exports = embed;

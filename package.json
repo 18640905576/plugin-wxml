@@ -1,9 +1,9 @@
 {
   "name": "prettier-plugin-wxml",
   "type": "commonjs",
-  "version": "1.0.3",
+  "version": "2.0.4",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "commit": "git-cz"
@@ -12,6 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "angular-html-parser": "^1.8.0",
+    "babel": "^6.23.0",
+    "fs": "0.0.1-security",
     "html-styles": "^1.0.0",
     "htmlparser2": "^6.1.0",
     "husky": "^5.0.8",
@@ -21,6 +23,7 @@
     "wxml-parser": "0.0.3"
   },
   "devDependencies": {
+    "@babel/parser": "^7.15.3",
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
     "commitizen": "^4.2.4",

@@ -3,7 +3,7 @@
  * mustache's syntatic tags(`{{!comments}}`, `{{#sectionBegin}}`, `{{/sectionEnd}}` etc),
  * 'cause we only need to disguise things outside `{{}}` and inside.
  */
-import { TemplateTokens } from "./types";
+// const { TemplateTokens } = require("./types");
 
 // TODO: 多层{{{}}}有问题
 const openingTagRe = /\{\{/;
@@ -75,4 +75,4 @@ class Scanner {
   }
 }
 
-export default parseTemplate;
+module.exports = parseTemplate;

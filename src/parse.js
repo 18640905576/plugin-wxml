@@ -4,9 +4,9 @@
 
 // parse.ts
 
-import { parseDocument } from "htmlparser2";
+const { parseDocument } = require("htmlparser2");
 
-export default function parse(text) {
+function parse(text) {
   const dom = parseDocument(text, {
     xmlMode: true,
     withStartIndices: true,
@@ -14,3 +14,4 @@ export default function parse(text) {
   });
   return dom;
 }
+module.exports = parse;
