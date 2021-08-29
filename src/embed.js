@@ -1,4 +1,4 @@
-const { AstPath, Doc, doc, Printer } = require("prettier");
+const { doc } = require("prettier");
 const parser = require("@babel/parser");
 const parseTemplate = require("./parseTemplate");
 
@@ -27,7 +27,7 @@ const embed = (path, print, textToDoc, options) => {
 function printTags(textToDoc, print, options) {
   return (path) => {
     const node = path.getValue();
-    const hasParent = !!node.parent;
+    const hasParent = !!(node.parent && node.parent.type !== "root");
     const hasChildren = node.children.length > 0;
     // 处理后代
     const children = [];
@@ -42,7 +42,8 @@ function printTags(textToDoc, print, options) {
       children.push(childPath.call(print));
     }, "children");
     // 处理属性
-    const attributeKeys = Object.keys(node.attribs);
+    const attributeKeys = getSortAttributeKeys(Object.keys(node.attribs));
+
     const attributeTexts = attributeKeys.map((attributeKey) => {
       const value = node.attribs[attributeKey];
       const parts = [line, attributeKey];
@@ -85,6 +86,43 @@ function printTags(textToDoc, print, options) {
       hasParent ? "" : softline,
     ]);
   };
+}
+
+/**
+ * 给 wxml 属性排序
+ * @param {*} attrs []
+ */
+function getSortAttributeKeys(attrs) {
+  // wxml属性的顺序要求
+  // 1. 条件类型：wx:if 、wx:else
+  // 2. 样式类型：style、class
+  // 3. 组件基础属性
+  // 4. 事件类型 bind catch
+  const SORT = {
+    "wx:if": 0,
+    "wx:else": 1,
+    "wx:for": 2,
+    "wx:index": 3,
+    class: 4,
+    style: 5,
+  };
+  let attrBefore = [];
+  let attrMiddle = [];
+  let attrAfter = [];
+  attrs.forEach((key, index) => {
+    if (Object.keys(SORT).includes(key)) {
+      attrBefore.push(key);
+    } else if (/^bind/.test(key) || /^catch/.test(key)) {
+      attrAfter.push(key);
+    } else {
+      attrMiddle.push(key);
+    }
+  });
+  // attrBefore 排序
+  attrBefore.sort((a, b) => {
+    return SORT[a] - SORT[b];
+  });
+  return [].concat(attrBefore, attrMiddle, attrAfter);
 }
 
 /**

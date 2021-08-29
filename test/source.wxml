@@ -1,14 +1,14 @@
-<view class="cart-container">
+<view bindtap="bindTap" catch:tap="onclick" class="cart-container" wx:if="true" style="cart" >
   <view class="status-btn-container">
-    <view bindtap="changeEditStatus"> {{statusBtnText }} </view>
+    <view bindtap="changeEditStatus">{{statusBtnText}}</view>
   </view>
 
   <!-- todo -->
   <free-list
-    data="{{ dataList }}"
+    data="{{dataList}}"
     id="recycleId"
     generic:item="cart-item"
-    status="{{ getListStatus }}"
+    status="{{getListStatus}}"
     bind:load="loadItem"
   />
   <!-- 购物车列表 -->
@@ -28,44 +28,43 @@
 
   <!-- 提交组件 -->
   <submit-bar
-    price="{{ allPrice }}"
-    submitText="{{ isEdit ? '删除' : '结算(' + allNumber + ')'  }}"
-    showCancel="{{ false }}"
+    price="{{allPrice}}"
+    submitText="{{isEdit ? '删除' : '结算(' + allNumber + ')'}}"
+    showCancel="{{false}}"
     bind:submit="onSubmit"
   >
     <view class="submit-container">
-      <van-checkbox use-icon-slot value="{{ allChecked }}" bind:change="onAllSelectChange">
+      <van-checkbox use-icon-slot="" value="{{allChecked}}" bind:change="onAllSelectChange">
         <iconfont
           slot="icon"
           size="36"
-          name="{{ allChecked? 'done' : 'circle' }}"
-          color="{{ allChecked ? '#ff7437': '#ccc'}}"
+          name="{{allChecked ? 'done' : 'circle'}}"
+          color="{{allChecked ? '#ff7437' : '#ccc'}}"
         />
         全选
       </van-checkbox>
 
-      <view class="submit-price-block" wx:if="{{ !isEdit }}">
-        <view class="submit-price">合计：￥{{ allPrice }}</view>
+      <view class="submit-price-block" wx:if="{{!isEdit}}">
+        <view class="submit-price">合计：￥{{allPrice}}</view>
         <view class="submit-fare">不包含运费</view>
       </view>
     </view>
   </submit-bar>
 </view>
-
 <free-empty
   image="cart"
   description="您的购物车竟然是空的 \n 马上去逛逛吧~"
-  wx:if="{{ !itemList.length && !invalidItemList.length }}"
+  wx:if="{{!itemList.length && !invalidItemList.length}}"
 />
-
 <!-- 规格选择弹窗 -->
 <goods-spec-popup
-  show="{{ goodsSpecPopupVisible }}"
-  skuList="{{ goodsDetailsData.skuList }}"
-  specList="{{ goodsDetailsData.specGroupList }}"
-  thumb="{{ specImgUrl }}"
-  selectedGoodsTypes="{{ selectedGoodsTypes }}"
-  disabledGoodsTypes="{{ disabledGoodsTypes }}"
-  goodsPrice="{{ goodsPrice }}"
+  show="{{goodsSpecPopupVisible}}"
+  skuList="{{goodsDetailsData.skuList}}"
+  specList="{{goodsDetailsData.specGroupList}}"
+  thumb="{{specImgUrl}}"
+  selectedGoodsTypes="{{selectedGoodsTypes}}"
+  disabledGoodsTypes="{{disabledGoodsTypes}}"
+  goodsPrice="{{goodsPrice}}"
   bind:goodsConfirm="onGoodsConfirm"
 />
+<view bindtap="bindTap" b="99" a="888" catch:tap="onclick" class="cart-container" wx:if="true" style="cart" />
